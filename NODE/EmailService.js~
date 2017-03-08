@@ -1,0 +1,37 @@
+/*
+* Module : EmailService
+* Description : Use to send Email
+*/
+
+let nodemailer = require('nodemailer');
+let smtpConfig = {
+     service : "gmail",
+     auth    : {
+          user : "betasoftsystems.dummy@gmail.com",
+          pass : "@Password12"
+     }
+};
+
+let transporter = nodemailer.createTransport(smtpConfig);
+//let transporter = nodemailer.createTransport();
+
+
+module.exports = {
+
+     send : function(toArr, mailOptions, cb) {
+          for (var index in toArr) {
+               mailOptions.to = toArr[index]
+               try {
+                    transporter.sendMail( mailOptions, function(err, info){
+                         if(err){
+                              cb(false);
+                         } else {
+                              cb(true);
+                         }
+                    });
+               } catch (err) {
+                    cb(false);
+               }
+          }
+     }
+};
